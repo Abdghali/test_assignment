@@ -19,14 +19,14 @@ class CharactersRepositoryImpl implements CharactersRepository {
     );
     final jsonMap = await json.decode(charResult.body) as Map<String, dynamic>;
 
-    final bool showMockedError = Random().nextBool();
-    print("casino test log: showMockedError = $showMockedError");
-    if (showMockedError) {
-      return Future.delayed(
-        const Duration(seconds: 5),
-        () => null,
-      );
-    }
+    // final bool showMockedError = Random().nextBool();
+    // print("casino test log: showMockedError = $showMockedError");
+    // if (showMockedError) {
+    //   return Future.delayed(
+    //     const Duration(seconds: 5),
+    //     () => null,
+    //   );
+    // }
     return Future.value(
       List.of(
         (jsonMap["results"] as List<dynamic>).map(
