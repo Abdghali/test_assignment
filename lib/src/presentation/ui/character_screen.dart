@@ -59,7 +59,7 @@ class CharactersScreen extends StatelessWidget {
               character: characters[index],
             );
           else {
-            Timer(Duration(milliseconds: 30), () {
+            Timer(Duration(milliseconds:29), () {
               scrollController
                   .jumpTo(scrollController.position.maxScrollExtent);
             });
