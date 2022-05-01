@@ -3,44 +3,36 @@ import 'package:casino_test/src/presentation/bloc/main_event.dart';
 import 'package:casino_test/src/presentation/bloc/main_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MainPageBloc
-    extends Bloc<MainPageEvent, MainPageState> {
+import '../../data/models/character.dart';
+
+class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   final CharactersRepository _charactersRepository;
+  int page = 1;
 
   MainPageBloc(
     MainPageState initialState,
     this._charactersRepository,
-  ) : super(initialState) {
-    on<GetTestDataOnMainPageEvent>(
-      (event, emitter) => _getDataOnMainPageCasino(event, emitter),
-    );
-    on<DataLoadedOnMainPageEvent>(
-      (event, emitter) => _dataLoadedOnMainPageCasino(event, emitter),
-    );
-    on<LoadingDataOnMainPageEvent>(
-      (event, emitter) => emitter(LoadingMainPageState()),
-    );
-  }
+  ) : super(initialState) {}
 
-  Future<void> _dataLoadedOnMainPageCasino(
-    DataLoadedOnMainPageEvent event,
-    Emitter<MainPageState> emit,
-  ) async {
-    if (event.characters != null) {
-      emit(SuccessfulMainPageState(event.characters!));
-    } else {
-      emit(UnSuccessfulMainPageState());
+  void loadPosts() {
+    if (state is CharacterLoading) return;
+
+    final currentState = state;
+
+    var oldCharacter = <Character>[];
+    if (currentState is CharacterLoaded) {
+      oldCharacter = currentState.characters;
     }
-  }
 
-  Future<void> _getDataOnMainPageCasino(
-    GetTestDataOnMainPageEvent event,
-    Emitter<MainPageState> emit,
-  ) async {
-    _charactersRepository.getCharacters(event.page).then(
-      (value) {
-        add(DataLoadedOnMainPageEvent(value));
-      },
-    );
+    emit(CharacterLoading(oldCharacter, isFirstFetch: page == 1));
+
+    _charactersRepository.getCharacters(page).then((newcharacter) {
+      page++;
+
+      final characters = (state as CharacterLoading).oldcharacters;
+      characters.addAll(newcharacter!);
+
+      emit(CharacterLoaded(characters));
+    });
   }
 }

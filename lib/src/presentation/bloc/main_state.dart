@@ -20,9 +20,25 @@ class UnSuccessfulMainPageState extends MainPageState {
 
 class SuccessfulMainPageState extends MainPageState {
   final List<Character> characters;
-
   SuccessfulMainPageState(this.characters);
-
   @override
   List<Object> get props => [characters];
+}
+
+
+
+
+class CharacterLoaded extends MainPageState {
+  final List<Character> characters;
+  CharacterLoaded(this.characters);
+  @override
+  List<Object?> get props => [characters];
+}
+
+class CharacterLoading extends MainPageState {
+  final List<Character> oldcharacters;
+  final bool isFirstFetch;
+  CharacterLoading(this.oldcharacters, {this.isFirstFetch=false});
+  @override
+  List<Object?> get props => [oldcharacters,isFirstFetch];
 }

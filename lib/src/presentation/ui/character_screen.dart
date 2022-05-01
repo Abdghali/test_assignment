@@ -1,52 +1,74 @@
+import 'dart:async';
 import 'package:casino_test/src/data/models/character.dart';
-import 'package:casino_test/src/data/repository/characters_repository.dart';
 import 'package:casino_test/src/presentation/bloc/main_bloc.dart';
-import 'package:casino_test/src/presentation/bloc/main_event.dart';
 import 'package:casino_test/src/presentation/bloc/main_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../widgets/character_widget.dart';
 import '../widgets/custom_circular_progress_indicator.dart';
 
 @immutable
 class CharactersScreen extends StatelessWidget {
+  final scrollController = ScrollController();
+
+  void setupScrollController(context) {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          BlocProvider.of<MainPageBloc>(context).loadPosts();
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    setupScrollController(context);
+    BlocProvider.of<MainPageBloc>(context).loadPosts();
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => MainPageBloc(
-          InitialMainPageState(),
-          GetIt.I.get<CharactersRepository>(),
-        )..add(const GetTestDataOnMainPageEvent(1)),
-        child: BlocConsumer<MainPageBloc, MainPageState>(
-          listener: (context, state) {},
-          builder: (blocContext, state) {
-            if (state is LoadingMainPageState) {
-              return CustomCircularProgressIndicator();
-            } else if (state is SuccessfulMainPageState) {
-              return _successfulWidget(context, state);
-            } else {
-              return Center(child: const Text("error"));
-            }
-          },
-        ),
+      appBar: AppBar(
+        title: Text('Character'),
+        backgroundColor: Colors.green,
       ),
+      body: _postList(),
     );
   }
 
+  Widget _postList() {
+    return BlocBuilder<MainPageBloc, MainPageState>(builder: (context, state) {
+      if (state is CharacterLoading && state.isFirstFetch) {
+        return CustomCircularProgressIndicator();
+      }
 
-  Widget _successfulWidget(
-      BuildContext context, SuccessfulMainPageState state) {
-    return ListView.builder(
-      cacheExtent: double.maxFinite,
-      itemCount: state.characters.length,
-      itemBuilder: (context, index) {
-        return CharacterWidget(character: state.characters[index]);
-      },
-    );
+      List<Character> characters = [];
+      bool isLoading = false;
+
+      if (state is CharacterLoading) {
+        characters = state.oldcharacters;
+        isLoading = true;
+      } else if (state is CharacterLoaded) {
+        characters = state.characters;
+      }
+
+      return ListView.builder(
+        controller: scrollController,
+        itemBuilder: (context, index) {
+          if (index < characters.length)
+            return CharacterWidget(
+              character: characters[index],
+            );
+          else {
+            Timer(Duration(milliseconds: 30), () {
+              scrollController
+                  .jumpTo(scrollController.position.maxScrollExtent);
+            });
+
+            return CustomCircularProgressIndicator();
+          }
+        },
+        itemCount: characters.length + (isLoading ? 1 : 0),
+      );
+    });
   }
-
-  
 }
