@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../utility/app_colors.dart';
+import '../utility/const.dart';
 
-enum LiveStatues { alive, dead, unknown }
+enum LiveStatues { alive, dead, unKnown }
 
 class CharacterStatues extends StatelessWidget {
   final LiveStatues? liveStatues;
   CharacterStatues({Key? key, this.liveStatues}) : super(key: key);
 
-String alive = "Alive";
-String dead = "Dead";
-String unknown = "Unknown";
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -30,7 +29,7 @@ String unknown = "Unknown";
             ? alive
             : liveStatues == LiveStatues.dead
                 ? dead
-                : unknown,style: Theme.of(context).textTheme.bodyText1,),
+                : unKnown,style: Theme.of(context).textTheme.bodyText1,),
       ],
     );
   }

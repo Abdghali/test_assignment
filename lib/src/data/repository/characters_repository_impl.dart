@@ -8,7 +8,6 @@ import 'package:http/http.dart';
 
 class CharactersRepositoryImpl implements CharactersRepository {
   final Client client;
-
   CharactersRepositoryImpl(this.client);
 
   @override

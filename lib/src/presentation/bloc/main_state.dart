@@ -36,9 +36,9 @@ class CharacterLoaded extends MainPageState {
 }
 
 class CharacterLoading extends MainPageState {
-  final List<Character> oldcharacters;
+  final List<Character> oldCharacters;
   final bool isFirstFetch;
-  CharacterLoading(this.oldcharacters, {this.isFirstFetch=false});
+  CharacterLoading(this.oldCharacters, {this.isFirstFetch=false});
   @override
-  List<Object?> get props => [oldcharacters,isFirstFetch];
+  List<Object?> get props => [oldCharacters,isFirstFetch];
 }

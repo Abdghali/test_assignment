@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustumTextWithCpation extends StatelessWidget {
-  String? text;
-  String? caption;
+ final String? text;
+ final String? caption;
   CustumTextWithCpation({Key? key, this.text, this.caption}) : super(key: key);
 
   @override

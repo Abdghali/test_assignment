@@ -26,11 +26,11 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
 
     emit(CharacterLoading(oldCharacter, isFirstFetch: page == 1));
 
-    _charactersRepository.getCharacters(page).then((newcharacter) {
+    _charactersRepository.getCharacters(page).then((newCharacter) {
       page++;
 
-      final characters = (state as CharacterLoading).oldcharacters;
-      characters.addAll(newcharacter!);
+      final characters = (state as CharacterLoading).oldCharacters;
+      characters.addAll(newCharacter!);
 
       emit(CharacterLoaded(characters));
     });

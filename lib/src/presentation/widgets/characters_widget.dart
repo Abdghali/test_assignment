@@ -1,14 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:casino_test/src/presentation/utility/const.dart';
 import 'package:casino_test/src/presentation/widgets/custom_cached_network_image.dart';
 import 'package:casino_test/src/presentation/widgets/custom_column_text.dart';
 import 'package:flutter/material.dart';
-
 import '../../data/models/character.dart';
 import 'character_statues.dart';
 
-class CharacterWidget extends StatelessWidget {
-  Character? character;
-  CharacterWidget({Key? key, required this.character}) : super(key: key);
+class CharactersWidget extends StatelessWidget {
+  final Character? character;
+  CharactersWidget({Key? key, required this.character}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +48,11 @@ class CharacterWidget extends StatelessWidget {
                     height: 10,
                   ),
                   CharacterStatues(
-                    liveStatues: character!.status == "Alive"
+                    liveStatues: character!.status ==  alive
                         ? LiveStatues.alive
-                        : character!.status == "Dead"
+                        : character!.status == dead
                             ? LiveStatues.dead
-                            : LiveStatues.unknown,
+                            : LiveStatues.unKnown,
                   ),
                   SizedBox(
                     height: 20,

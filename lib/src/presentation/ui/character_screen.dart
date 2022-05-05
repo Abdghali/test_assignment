@@ -5,7 +5,7 @@ import 'package:casino_test/src/presentation/bloc/main_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../widgets/character_widget.dart';
+import '../widgets/characters_widget.dart';
 import '../widgets/custom_circular_progress_indicator.dart';
 
 @immutable
@@ -45,7 +45,7 @@ class CharactersScreen extends StatelessWidget {
       bool isLoading = false;
 
       if (state is CharacterLoading) {
-        characters = state.oldcharacters;
+        characters = state.oldCharacters;
         isLoading = true;
       } else if (state is CharacterLoaded) {
         characters = state.characters;
@@ -55,7 +55,7 @@ class CharactersScreen extends StatelessWidget {
         controller: scrollController,
         itemBuilder: (context, index) {
           if (index < characters.length)
-            return CharacterWidget(
+            return CharactersWidget(
               character: characters[index],
             );
           else {
