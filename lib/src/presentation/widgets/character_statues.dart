@@ -9,7 +9,6 @@ class CharacterStatues extends StatelessWidget {
   final LiveStatues? liveStatues;
   CharacterStatues({Key? key, this.liveStatues}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,11 +24,15 @@ class CharacterStatues extends StatelessWidget {
                   : unKnownColor,
         ),
         const SizedBox(width: 6),
-        Text(liveStatues == LiveStatues.alive
-            ? alive
-            : liveStatues == LiveStatues.dead
-                ? dead
-                : unKnown,style: Theme.of(context).textTheme.bodyText1,),
+        Text(
+          liveStatues == LiveStatues.alive
+              ? alive
+              : liveStatues == LiveStatues.dead
+                  ? dead
+                  : unKnown,
+          style: Theme.of(context).textTheme.bodyText1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }

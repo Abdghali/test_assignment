@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustumTextWithCpation extends StatelessWidget {
- final String? text;
- final String? caption;
+  final String? text;
+  final String? caption;
   CustumTextWithCpation({Key? key, this.text, this.caption}) : super(key: key);
 
   @override
@@ -14,6 +14,7 @@ class CustumTextWithCpation extends StatelessWidget {
         Text(
           caption!,
           style: Theme.of(context).textTheme.caption,
+          overflow: TextOverflow.ellipsis,
         ),
         SizedBox(
           height: 2,
